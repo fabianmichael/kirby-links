@@ -1,0 +1,45 @@
+
+.fm-menu-link {
+  display: flex;
+  font-size: var(--text-sm);
+  font-weight: normal;
+  line-height: 1.125rem;
+  gap: var(--spacing-3);
+}
+.fm-menu-link__image {
+  height: 100%;
+  overflow: hidden;
+	flex-shrink: 0;
+}
+.fm-menu-link__text,
+.fm-menu-link__url {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.fm-menu-link__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 2 1 auto;
+}
+.fm-menu-link__preview {
+  flex: 0 2 auto;
+  min-width: 0;
+}
+
+.k-drawer-fields:not(:has(.k-field-name-link .k-link-input-toggle > .k-button-icon > .k-icon[data-type="page"])) .k-column:has(.k-field-name-anchor) {
+  /* hide anchor field when link type is anything but "page" */
+  display: none;
+}
+
+
+.k-drawer-fields:not(:has(.k-field-name-link .k-link-input-toggle > .k-button-icon > .k-icon:is([data-type="file"], [data-type="url"]))) .k-field-name-download {
+  /* hide download field when link type is not "file" or "url" */
+  display: none;
+}
+
+.k-drawer-fields:not(:has(.k-field-name-link .k-link-input-toggle > .k-button-icon > .k-icon:is([data-type="page"], [data-type="url"], [data-type="file"]))) .k-field-name-new_tab {
+  /* hide new_tab field when link type is not "page", "url" or "file" */
+  display: none;
+}

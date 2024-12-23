@@ -1,0 +1,5 @@
+type: blocks
+label: Links
+empty: keine Links
+fieldsets:
+  - link

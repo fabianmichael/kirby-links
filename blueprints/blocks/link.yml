@@ -1,0 +1,4 @@
+name: Link
+icon: url
+fields:
+  link: fields/link-group

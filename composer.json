@@ -1,0 +1,32 @@
+{
+	"name": "fabianmichael/kirby-links",
+	"type": "kirby-plugin",
+	"version": "1.0.0",
+	"require": {
+		"getkirby/composer-installer": "^1.2"
+	},
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"FabianMichael\\Links\\": "src/"
+		},
+    "files": [
+      "./config/helpers.php"
+    ]
+	},
+	"authors": [
+		{
+			"name": "Fabian Michael",
+			"email": "hallo@fabianmichael.de"
+		}
+	],
+	"config": {
+		"optimize-autoloader": true,
+		"allow-plugins": {
+			"getkirby/composer-installer": true
+		}
+	},
+	"extra": {
+		"installer-name": "links"
+	}
+}
