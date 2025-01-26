@@ -1,8 +1,6 @@
 <?php
 
 use Kirby\Cms\App as Kirby;
-use Kirby\Cms\Block;
-use Kirby\Toolkit\A;
 
 @include_once __DIR__ . '/vendor/autoload.php';
 
@@ -18,7 +16,13 @@ Kirby::plugin('fabianmichael/links', [
 	'blocksMethods' => [
 		'hasValidLinks' => function (): bool
 		{
-			return A::some([...$this], fn(Block $block) => resolve_link($block));
+			foreach ($this as $block) {
+				if (resolve_link($block) !== null) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 	]
 ]);
