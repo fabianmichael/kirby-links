@@ -17,10 +17,11 @@ class Link
 {
 	public static function resolve(
 		Page|Block|StructureObject|string|null $link,
-		array $options = []): ?Obj
-	{
+		array $options = []
+	): ?Obj {
+
 		if (is_null($link)) {
-			// accepting `null` a input makes the function easier to use
+			// accepting `null` as input makes the function easier to use
 			return null;
 		}
 
@@ -52,7 +53,7 @@ class Link
 				'file' => $link,
 				'text' => $link->filename(),
 			]);
-		} elseif (is_a($link, Field::class)) {
+		} elseif ($link instanceof Field) {
 			// link field
 			$href = $link->toUrl();
 
@@ -63,16 +64,17 @@ class Link
 			$result = array_merge($result, [
 				'href' => (string) $href,
 			]);
-		} elseif (is_a($link, Block::class)
-			|| is_a($link, StructureObject::class)
-			|| is_a($link, Content::class)) {
+		} elseif ($link instanceof Block
+			|| $link instanceof StructureObject
+			|| $link instanceof Content
+		) {
 			// Link field group from various sources
 
 			$result['target'] = r($link->new_tab()->toBool(), '_blank');
 			$value = $link->link()->value();
-			$href = $link->toUrl();
+			$href = $link->link()->toUrl();
 
-			if ($link === null) {
+			if ($href === null) {
 				return null;
 			}
 
@@ -98,6 +100,11 @@ class Link
 					'href' => $model->url(),
 					'file' => $model,
 					'text' => $link->text()->or($model->filename())->toString(),
+				]);
+			} else if ($href !== null) {
+				$result = array_merge($result, [
+					'href' => $href,
+					'text' => $link->text()->or(Url::short($href))->toString(),
 				]);
 			}
 		}
