@@ -1,0 +1,9 @@
+icon: menu
+name: Menu items
+preview: submenu
+fields:
+  title:
+    type: text
+    label: Title
+    required: true
+  items: fields/links

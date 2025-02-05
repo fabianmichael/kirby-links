@@ -8,6 +8,7 @@ Kirby::plugin('fabianmichael/links', [
 	'blueprints' => [
 		'blocks/link' => __DIR__ . '/blueprints/blocks/link.yml',
 		'blocks/menu-link' => __DIR__ . '/blueprints/blocks/menu-link.yml',
+		'blocks/menu-submenu' => __DIR__ . '/blueprints/blocks/menu-submenu.yml',
 		'fields/link-group' => __DIR__ . '/blueprints/fields/link-group.yml',
 		'fields/link' => __DIR__ . '/blueprints/fields/link.yml',
 		'fields/links' => __DIR__ . '/blueprints/fields/links.yml',

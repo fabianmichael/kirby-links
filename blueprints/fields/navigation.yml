@@ -2,4 +2,5 @@ type: blocks
 label: Navigation
 fieldsets:
   - menu-link
+  - menu-submenu
 empty: Keine Menüeinträge

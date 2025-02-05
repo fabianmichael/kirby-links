@@ -1,6 +1,5 @@
 <template>
   <div class="fm-menu-link">
-    <!-- <k-icon :type="icon" class="fm-menu-link__icon" /> -->
     <k-icon :type="icon" class="fm-menu-link__icon" />
     <div class="fm-menu-link__text">{{ text }}</div>
     <k-icon
@@ -130,12 +129,16 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
-  flex: 2 1 auto;
+  /* flex: 2 1 auto; */
 }
 
 .fm-menu-link__preview {
   flex: 0 2 auto;
   min-width: 0;
+}
+
+.fm-link-preview__icon {
+  opacity: .5;
 }
 
 </style>
