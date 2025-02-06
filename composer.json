@@ -28,5 +28,8 @@
 	},
 	"extra": {
 		"installer-name": "links"
-	}
+	},
+  "require-dev": {
+    "squizlabs/php_codesniffer": "4.0.x-dev"
+  }
 }

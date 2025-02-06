@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ruleset name="reinorange">
+  <rule ref="PSR12"/>
+  <arg name="colors"/>
+  <arg value="sp"/>
+  <arg name="extensions" value="php" />
+  <arg name="basepath" value="."/>
+
+  <file>./src</file>
+
+  <rule ref="Generic.Files.LineLength">
+    <properties>
+      <property name="lineLimit" value="200"/>
+      <property name="absoluteLineLimit" value="500"/>
+    </properties>
+
+    <exclude-pattern>*/snippets/*</exclude-pattern>
+    <exclude-pattern>*/templates/*</exclude-pattern>
+  </rule>
+
+  <rule ref="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace">
+    <exclude-pattern>*/snippets/*</exclude-pattern>
+    <exclude-pattern>*/templates/*</exclude-pattern>
+  </rule>
+
+  <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+    <exclude-pattern>site/models/*</exclude-pattern>
+  </rule>
+
+  <rule ref="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore">
+    <exclude-pattern>*/snippets/*</exclude-pattern>
+    <exclude-pattern>*/templates/*</exclude-pattern>
+  </rule>
+
+  <rule ref="Internal.NoCodeFound">
+    <exclude-pattern>*/snippets/*</exclude-pattern>
+    <exclude-pattern>*/templates/*</exclude-pattern>
+  </rule>
+</ruleset>
