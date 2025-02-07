@@ -4,8 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de8923a9bb73cf369912588b356a81f3",
+    "content-hash": "ea054eb8f4dbccb4af9a70513a763c8d",
     "packages": [
+        {
+            "name": "fabianmichael/kirby-template-attributes",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fabianmichael/kirby-template-attributes.git",
+                "reference": "0efe1459fdd82cf7474e8d68d58b8963c665b0e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fabianmichael/kirby-template-attributes/zipball/0efe1459fdd82cf7474e8d68d58b8963c665b0e0",
+                "reference": "0efe1459fdd82cf7474e8d68d58b8963c665b0e0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "getkirby/composer-installer": "^1.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "getkirby/cms": "^4.1.0",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "^9",
+                "squizlabs/php_codesniffer": "^3.9",
+                "vimeo/psalm": "^5.1"
+            },
+            "type": "kirby-plugin",
+            "extra": {
+                "installer-name": "template-attributes",
+                "kirby-cms-path": false
+            },
+            "autoload": {
+                "files": [
+                    "helpers.php"
+                ],
+                "psr-4": {
+                    "FabianMichael\\TemplateAttributes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabian Michael",
+                    "email": "hallo@fabianmichael.de"
+                }
+            ],
+            "description": "Better HTML attribute handling for your snippets and templates.",
+            "homepage": "https://github.com/fabianmichael/kirby-template-attributes",
+            "support": {
+                "issues": "https://github.com/fabianmichael/kirby-template-attributes/issues",
+                "source": "https://github.com/fabianmichael/kirby-template-attributes/tree/2.3.1"
+            },
+            "time": "2024-11-23T17:50:52+00:00"
+        },
         {
             "name": "getkirby/composer-installer",
             "version": "1.2.1",
