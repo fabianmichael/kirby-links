@@ -11,6 +11,7 @@ use Kirby\Cms\Url;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
 use Kirby\Toolkit\Obj;
+use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 
 class Link
@@ -104,7 +105,7 @@ class Link
 			} else if ($href !== null) {
 				$result = array_merge($result, [
 					'href' => $href,
-					'text' => $link->text()->or(Url::short($href))->toString(),
+					'text' => $link->text()->value(),
 				]);
 			}
 		}
@@ -125,7 +126,7 @@ class Link
 			}
 
 			$result = new Obj(array_merge($result, [
-				'text' => new Field(null, 'text', $result['text'] ?? Url::short($result['href'])),
+				'text' => new Field(null, 'text', static::linkTextOrFallback($result['text'], $result['href'])),
 				'rel' => $rel = count($rel) > 0 ? implode(' ', $rel) : null,
 				'external' => $external,
 				'attr' => attributes([
@@ -157,5 +158,18 @@ class Link
 		}
 
 		return false;
+	}
+
+	protected static function linkTextOrFallback(?string $text, string $href): string {
+		if (!empty($text)) {
+			return $text;
+		}
+		
+		if (parse_url($href, PHP_URL_SCHEME) === 'mailto') {
+			// Url::short() does not support `mailto:` links
+			return parse_url($href, PHP_URL_PATH);
+		}
+		
+		return Url::short($href);
 	}
 }
