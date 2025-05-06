@@ -1,7 +1,7 @@
 <template>
-  <div class="fm-menu-link">
-    <k-icon :type="icon" class="fm-menu-link__icon" />
-    <div class="fm-menu-link__text">{{ text }}</div>
+  <div class="fm-link-preview">
+    <k-icon :type="icon" class="fm-link-preview__icon" />
+    <div class="fm-link-preview__text">{{ text }}</div>
     <k-icon
       type="download"
       v-if="download"
@@ -86,41 +86,44 @@ export default {
 </script>
 
 <style>
-.fm-menu-link {
+.fm-link-preview {
   display: flex;
   font-weight: normal;
   line-height: 1.3;
   gap: .8em;
 }
 
-.fm-menu-link__image {
+.fm-link-preview__image {
   height: 100%;
   overflow: hidden;
 	flex-shrink: 0;
 }
 
-.fm-menu-link__text,
-.fm-menu-link__url {
+.fm-link-preview__text,
+.fm-link-preview__url {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.fm-menu-link__text {
+.fm-link-preview__text {
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
   /* flex: 2 1 auto; */
 }
 
-.fm-menu-link__preview {
+.fm-link-preview__preview {
   flex: 0 2 auto;
   min-width: 0;
 }
 
+.fm-link-preview__icon,
 .fm-link-preview__icon {
   --icon-size: 1.25em;
+}
 
+.fm-link-preview__icon {
   opacity: .5;
 }
 
