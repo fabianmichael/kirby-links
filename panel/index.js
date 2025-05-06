@@ -1,9 +1,9 @@
 /* global panel */
 
-import Link from './js/components/blocks/Link.vue'
-import Submenu from './js/components/blocks/Submenu.vue'
+import Link from './components/blocks/Link.vue'
+import Submenu from './components/blocks/Submenu.vue'
 
-import LinkPreview from './js/components/misc/LinkPreview.vue'
+import LinkPreview from './components/misc/LinkPreview.vue'
 
 import './index.css'
 

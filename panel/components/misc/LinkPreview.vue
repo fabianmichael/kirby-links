@@ -63,24 +63,6 @@ export default {
     isLink() {
 			return ["url", "email", "tel"].includes(this.currentType);
 		},
-    // icon() {
-    //   return this.link;
-    // },
-    // link() {
-    //   const link_type = this.content.link_type
-    //   if (link_type === "page" && this.content.target_page.length > 0) {
-    //     let link = this.content.target_page[0]?.url
-    //     if (this.content.anchor) link += "#" + this.content.anchor
-    //     return link
-    //   } else if (link_type === "url") {
-    //     return this.content.url
-    //   } else if (link_type === "file" && this.content.target_file.length > 0) {
-    //     console.log("ff", this.content.target_file)
-    //     return this.content.target_file[0]?.url
-    //   }
-
-    //   return null
-    // },
     new_tab() {
       return this.content.new_tab
     },
@@ -106,10 +88,9 @@ export default {
 <style>
 .fm-menu-link {
   display: flex;
-  font-size: var(--text-sm);
   font-weight: normal;
-  line-height: 1.125rem;
-  gap: var(--spacing-3);
+  line-height: 1.3;
+  gap: .8em;
 }
 
 .fm-menu-link__image {
@@ -138,6 +119,8 @@ export default {
 }
 
 .fm-link-preview__icon {
+  --icon-size: 1.25em;
+
   opacity: .5;
 }
 
