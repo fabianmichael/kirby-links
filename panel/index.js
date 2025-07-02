@@ -5,8 +5,6 @@ import Submenu from './components/blocks/Submenu.vue'
 
 import LinkPreview from './components/misc/LinkPreview.vue'
 
-import './index.css'
-
 panel.plugin('fabianmichael/links', {
   blocks: {
     link: Link,

@@ -9,22 +9,22 @@ fields:
     label: Link text
     help: Optional, will be automatically generated from actual link if not supplied.
   anchor:
-    # ! conditional field, visibility controlled by CSS until Kirby supports complex conditions
     type: text
     before: "#"
     label: Anker
     font: monospace
     icon: anchor
+    help: This field has only an effect, when linking to a page
     width: 1/2
   new_tab:
-    # ! conditional field, visibility controlled by CSS until Kirby supports complex conditions
     type: toggle
     label: Open in new tab?
     icon: external
+    help: This option has only an effect on links to pages, URLs and files.
     width: 1/2
   download:
-    # ! conditional field, visibility controlled by CSS until Kirby supports complex conditions
     type: toggle
     label: Force download
-    width: 1/2
     icon: download
+    help: Tells the browser to downlod the link target. This has only an effect when linking to a file or an external URL.
+    width: 1/2
