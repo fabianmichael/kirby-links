@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "387e0ae504882e419602c29a5599a335",
+    "content-hash": "d9be122828528766f5c2fab1fdf0268f",
     "packages": [
         {
             "name": "fabianmichael/kirby-template-attributes",
