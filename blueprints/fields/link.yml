@@ -1,8 +1,8 @@
 extends: fields/links
-label: Link
+label: links.single.label
 preview: link
 max: 1
-empty: Kein Link
+empty: links.empty
 fieldsets:
   link:
     extends: blocks/link

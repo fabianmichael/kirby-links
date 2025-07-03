@@ -33,5 +33,9 @@ Kirby::plugin('fabianmichael/links', [
 
 			return false;
 		}
-	]
+	],
+	'translations' => [
+		'en' => require __DIR__ . '/translations/en.php',
+		'de' => require __DIR__ . '/translations/de.php',
+	],
 ]);

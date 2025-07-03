@@ -1,5 +1,5 @@
 type: blocks
-label: Links
-empty: keine Links
+label: links.multiple.label
+empty: links.empty
 fieldsets:
   - link

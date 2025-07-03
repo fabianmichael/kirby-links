@@ -1,5 +1,5 @@
 icon: url
-name: Link
+name: links.blocks.menuLink.name
 preview: link
 fields:
   link: fields/link-group

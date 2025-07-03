@@ -1,6 +1,6 @@
 type: blocks
-label: Navigation
+label: links.navigation.label
 fieldsets:
   - menu-link
   - menu-submenu
-empty: Keine Menüeinträge
+empty: links.navigation.empty

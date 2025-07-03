@@ -2,29 +2,29 @@ type: group
 fields:
   link:
     type: link
-    label: Link
+    label: links.link.label
     required: true
   text:
     type: text
-    label: Link text
-    help: Optional, will be automatically generated from actual link if not supplied.
+    label: links.text.label
+    help: links.text.help
   anchor:
     type: text
     before: "#"
-    label: Anker
+    label: links.anchor.label
     font: monospace
     icon: anchor
-    help: This field has only an effect, when linking to a page
+    help: links.anchor.help
     width: 1/2
   new_tab:
     type: toggle
-    label: Open in new tab?
+    label: links.newTab.label
     icon: external
-    help: This option has only an effect on links to pages, URLs and files.
+    help: links.newTab.help
     width: 1/2
   download:
     type: toggle
-    label: Force download
+    label: links.download.label
     icon: download
-    help: Tells the browser to downlod the link target. This has only an effect when linking to a file or an external URL.
+    help: links.download.help
     width: 1/2
