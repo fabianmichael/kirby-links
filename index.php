@@ -1,10 +1,11 @@
 <?php
 
-use Kirby\Cms\App as Kirby;
+use FabianMichael\Links\Link;
+use Kirby\Cms\App;
 
 @include_once __DIR__ . '/vendor/autoload.php';
 
-Kirby::plugin('fabianmichael/links', [
+App::plugin('fabianmichael/links', [
 	'blueprints' => [
 		'blocks/link' => __DIR__ . '/blueprints/blocks/link.yml',
 		'blocks/menu-link' => __DIR__ . '/blueprints/blocks/menu-link.yml',
@@ -22,17 +23,22 @@ Kirby::plugin('fabianmichael/links', [
 		'links/fields/links' => __DIR__ . '/blueprints/fields/links.yml',
 		'links/fields/navigation' => __DIR__ . '/blueprints/fields/navigation.yml',
 	],
+	'blockMethods' => [
+		'toResolvedLink' => function (): ?Link {
+			return Link::resolve($this);
+		},
+	],
 	'blocksMethods' => [
 		'hasValidLinks' => function (): bool
 		{
 			foreach ($this as $block) {
-				if (resolve_link($block) !== null) {
+				if (Link::resolve($block) !== null) {
 					return true;
 				}
 			}
 
 			return false;
-		}
+		},
 	],
 	'translations' => [
 		'en' => require __DIR__ . '/translations/en.php',
