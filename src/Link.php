@@ -11,17 +11,15 @@ use Kirby\Cms\Url;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
 use Kirby\Toolkit\Obj;
+use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
+use Stringable;
 
-class Link extends Obj
+class Link extends Obj implements Stringable
 {
-
-	protected function __construct(array $data = []) {
-		return parent::__construct($data);
-	}
-
 	/**
-	 * 
+	 * Tries to resolve the link and returns an instance of this
+	 * class if that was successful.
 	 */
 	public static function resolve(
 		Page|Block|StructureObject|string|null $link,
@@ -132,7 +130,7 @@ class Link extends Obj
 		}
 
 		return new static(array_merge($result, [
-			'text' => new Field(null, 'text', static::linkTextOrFallback($result['text'], $result['href'])),
+			'text' => new Field(null, 'text', $result['text'] ?: static::fallbackText($result['href'])),
 			'rel' => $rel = count($rel) > 0 ? implode(' ', $rel) : null,
 			'external' => $external,
 			'attr' => attributes([
@@ -145,6 +143,10 @@ class Link extends Obj
 		]));
 	}
 
+	/**
+	 * Returns the `aria-current` value as string for given page object
+	 * or boolean `false` if the $model is not the current page.
+	 */
 	public static function ariaCurrentValue(ModelWithContent $model): string|bool
 	{
 		if (!$model instanceof Page) {
@@ -161,16 +163,25 @@ class Link extends Obj
 		return false;
 	}
 
-	protected static function linkTextOrFallback(?string $text, string $href): string {
-		if (!empty($text)) {
-			return $text;
-		}
-		
+	/**
+	 * Generates a fallback text for given URL.
+	 */
+	protected static function fallbackText(string $href): string {
 		if (parse_url($href, PHP_URL_SCHEME) === 'mailto') {
 			// Url::short() does not support `mailto:` links
 			return parse_url($href, PHP_URL_PATH);
 		}
 		
 		return Url::short($href);
+	}
+
+	/**
+	 * Converts the link object to HTML.
+	 */
+	public function __toString() : string {
+		return Str::template('<a {attr}>{text}</a>', [
+			'attr' => $this->attr()->toString(),
+			'text' => html($this->text()),
+		]);
 	}
 }
