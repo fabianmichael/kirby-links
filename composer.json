@@ -27,7 +27,7 @@
 		"installer-name": "links"
 	},
   "require-dev": {
-    "squizlabs/php_codesniffer": "4.0.x-dev"
+    "squizlabs/php_codesniffer": "^3.6"
   },
   "require": {
 		"getkirby/composer-installer": "^1.2",
