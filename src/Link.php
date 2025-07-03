@@ -11,17 +11,24 @@ use Kirby\Cms\Url;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
 use Kirby\Toolkit\Obj;
-use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 
-class Link
+class Link extends Obj
 {
+
+	protected function __construct(array $data = []) {
+		return parent::__construct($data);
+	}
+
+	/**
+	 * 
+	 */
 	public static function resolve(
 		Page|Block|StructureObject|string|null $link,
 		array $options = []
 	): ?Obj {
 
-		if (is_null($link)) {
+		if ($link === null) {
 			// accepting `null` as input makes the function easier to use
 			return null;
 		}
@@ -35,7 +42,7 @@ class Link
 		];
 
 		if (is_string($link)) {
-			// just a string, use directly as URL
+			// just a string, use directly as URL without further validation
 			$result = array_merge($result, [
 				'href' => $link,
 			]);
@@ -43,7 +50,7 @@ class Link
 			// plain page object
 			$result = array_merge($result, [
 				'href' => $link->url(),
-				'current' => $link === page(),
+				'current' => static::ariaCurrentValue($link),
 				'page' => $link,
 				'text' => $link->title()->toString(),
 			]);
@@ -58,7 +65,7 @@ class Link
 			// link field
 			$href = $link->toUrl();
 
-			if ($href === null) {
+			if (empty($href)) {
 				return null;
 			}
 
@@ -75,7 +82,7 @@ class Link
 			$value = $link->link()->value();
 			$href = $link->link()->toUrl();
 
-			if ($href === null) {
+			if (empty($href)) {
 				return null;
 			}
 
@@ -112,36 +119,30 @@ class Link
 
 		$result = array_merge($result, $options);
 
-		if (! empty($result['href'])) {
-			$rel = [];
+		$rel = [];
 
-			$external = parse_url($result['href'], PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
+		$external = parse_url($result['href'], PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 
-			if ($external) {
-				$rel[] = 'external';
-			}
-
-			if ($external && ! is_null($result['target'])) {
-				$rel = [...$rel, 'noopener', 'noreferrer'];
-			}
-
-			$result = new Obj(array_merge($result, [
-				'text' => new Field(null, 'text', static::linkTextOrFallback($result['text'], $result['href'])),
-				'rel' => $rel = count($rel) > 0 ? implode(' ', $rel) : null,
-				'external' => $external,
-				'attr' => attributes([
-					'href' => $result['href'],
-					'rel' => $rel,
-					'target' => $result['target'],
-					'aria-current' => $result['current'],
-					'download' => $result['download'] ? true : null,
-				]),
-			]));
-
-			return $result;
+		if ($external) {
+			$rel[] = 'external';
 		}
 
-		return null;
+		if ($external && ! is_null($result['target'])) {
+			$rel = [...$rel, 'noopener', 'noreferrer'];
+		}
+
+		return new static(array_merge($result, [
+			'text' => new Field(null, 'text', static::linkTextOrFallback($result['text'], $result['href'])),
+			'rel' => $rel = count($rel) > 0 ? implode(' ', $rel) : null,
+			'external' => $external,
+			'attr' => attributes([
+				'href' => $result['href'],
+				'rel' => $rel,
+				'target' => $result['target'],
+				'aria-current' => $result['current'],
+				'download' => $result['download'] ? true : null,
+			]),
+		]));
 	}
 
 	public static function ariaCurrentValue(ModelWithContent $model): string|bool
