@@ -1,0 +1,81 @@
+extends:
+  - stylelint-config-standard-scss
+  - stylelint-config-prettier-scss
+  - stylelint-config-idiomatic-order
+plugins:
+  - stylelint-order
+rules:
+  # empty lines
+
+  comment-no-empty: null
+  scss/comment-no-empty: null
+  scss/dollar-variable-empty-line-before: null
+  declaration-empty-line-before:
+    - always
+    - except:
+        - after-comment
+        - first-nested
+      ignore:
+        - after-declaration
+        - after-comment
+  comment-empty-line-before:
+    - always
+    - except:
+        - first-nested
+      ignore:
+        - after-comment
+        - stylelint-commands
+  scss/double-slash-comment-empty-line-before: null
+  at-rule-empty-line-before:
+    - always
+    - except:
+        - blockless-after-same-name-blockless
+        - first-nested
+      ignore:
+        - after-comment
+      ignoreAtRules:
+        - else
+
+  # naming conventions
+
+  selector-class-pattern:
+    - "^[a-z](-?[a-z0-9-]+)*(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$"
+    - message: >
+        Expected class name to follow BEM convention
+        (see https://getbem.com/)
+  custom-property-pattern:
+    - "^[a-z](-?[a-z0-9]+)*(--([a-z0-9]+-?)+){0,2}$"
+    - message: >
+        Expected custom property to follow one of these patterns:
+        `--block--property-name:` (BEM-like)
+        or `--some-global-property:` (kebap-case)
+  keyframes-name-pattern:
+    - "^[a-z](-?[a-z0-9]+)*(--([a-z0-9]+-?)+){0,2}$"
+    - message: >
+        Expected custom property to follow one of these patterns:
+        `block--animation-name` (BEM-like)
+        or `some-global-animation` (kebap-case)
+  scss/at-mixin-pattern:
+    - "^[a-z](-?[a-z0-9]+)*(--([a-z0-9]+-?)+){0,2}$"
+    - message: >
+        Expected mixin name to follow one of these patterns:
+        `block--mixin-name` (BEM-like, block-specific)
+        or `some-global-mixin` (kebap-case)
+  scss/dollar-variable-pattern:
+    - "^[a-z](-?[a-z0-9]+)*(--([a-z0-9]+-?)+){0,2}$"
+    - message: >
+        Expected dollar variable to follow one of these patterns:
+        `$block--some-variable` (BEM-like, block-specific)
+        or `$some-global-variable` (kebap-case)
+
+  # others
+
+  scss/at-mixin-argumentless-call-parentheses: always
+  property-no-vendor-prefix: true
+  value-no-vendor-prefix:
+    - true
+    - ignoreValues:
+        - fill-available # don’t strip this vendor prefix automatically
+  selector-attribute-quotes: always
+  declaration-no-important: true
+  no-descending-specificity: null
