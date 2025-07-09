@@ -42,7 +42,7 @@ fields:
 ```php
 # site/templates/article.php
 
-<?php if ($link = resolve_link($page->author()->toBlocks()->first())): ?>
+<?php if ($link = $page->author()->toBlocks()?->first()->toResolvedLink()): ?>
   <p>Author: <?= $link ?></p>
 <?php endif ?>
 ```
@@ -69,7 +69,7 @@ fields:
 <?php if ($links->hasValidLinks()): ?>
   <ul>
     <?php foreach ($links as $link): ?>
-      <?php if ($link = resolve_link($link)): ?>
+      <?php if ($link = $link->toResolvedLink()): ?>
         <li><?= $link ?></li>
       <?php endif ?>
     <?php endforeach ?>
@@ -124,7 +124,7 @@ if (!$buttons->hasValidLinks()) {
 
 <ul>
   <?php foreach ($buttons as $button): ?>
-    <?php if ($button = resolve_link($button)): ?>
+    <?php if ($button = $button->toResolvedLink): ?>
       <?php $style = $button->style()->or('primary')->toString() ?>
       <li>
         <a <?= $button->attr()->merge([

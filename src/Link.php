@@ -10,6 +10,7 @@ use Kirby\Cms\StructureObject;
 use Kirby\Cms\Url;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
+use Kirby\Filesystem\Asset;
 use Kirby\Toolkit\Obj;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
@@ -22,7 +23,7 @@ class Link extends Obj implements Stringable
 	 * class if that was successful.
 	 */
 	public static function resolve(
-		Page|Block|StructureObject|string|null $link,
+		Page|File|Asset|Block|StructureObject|Content|string|null $link,
 		array $options = []
 	): ?Obj {
 
@@ -31,6 +32,7 @@ class Link extends Obj implements Stringable
 			return null;
 		}
 
+		// start with an empty link
 		$result = [
 			'href' => null,
 			'current' => false,
@@ -88,7 +90,7 @@ class Link extends Obj implements Stringable
 				if (!$model = Uuid::for($value)->model()) {
 					return null;
 				}
-				
+
 				/** @var Page $model */
 				$result = array_merge($result, [
 					'href' => $model->url(),
@@ -100,7 +102,7 @@ class Link extends Obj implements Stringable
 				if (!$model = Uuid::for($value)->model()) {
 					return null;
 				}
-				
+
 				/** @var Page $model */
 				$result = array_merge($result, [
 					'href' => $model->url(),
@@ -115,24 +117,14 @@ class Link extends Obj implements Stringable
 			}
 		}
 
+		// compute rel attribute
 		$result = array_merge($result, $options);
-
-		$rel = [];
-
-		$external = parse_url($result['href'], PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
-
-		if ($external) {
-			$rel[] = 'external';
-		}
-
-		if ($external && ! is_null($result['target'])) {
-			$rel = [...$rel, 'noopener', 'noreferrer'];
-		}
+		$rel = static::relAttribute($result['href'], is_null($result['target']));
 
 		return new static(array_merge($result, [
 			'text' => new Field(null, 'text', $result['text'] ?: static::fallbackText($result['href'])),
-			'rel' => $rel = count($rel) > 0 ? implode(' ', $rel) : null,
-			'external' => $external,
+			'rel' => $rel,
+			'external' => static::isExternal($result['href']),
 			'attr' => attributes([
 				'href' => $result['href'],
 				'rel' => $rel,
@@ -141,6 +133,28 @@ class Link extends Obj implements Stringable
 				'download' => $result['download'] ? true : null,
 			]),
 		]));
+	}
+
+	public static function relAttribute(string $href, bool $newTab = false): ?string
+	{
+		$isExternal = parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
+		$rel = [];
+
+		if ($isExternal) {
+			$rel[] = 'external';
+
+			if ($newTab) {
+				$rel = [...$rel, 'noopener', 'noreferrer'];
+			}
+		}
+
+		return count($rel) > 0 ? implode(' ', $rel) : null;
+	}
+
+
+	public static function isExternal(string $href): bool
+	{
+		return parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 	}
 
 	/**
@@ -171,7 +185,7 @@ class Link extends Obj implements Stringable
 			// Url::short() does not support `mailto:` links
 			return parse_url($href, PHP_URL_PATH);
 		}
-		
+
 		return Url::short($href);
 	}
 
