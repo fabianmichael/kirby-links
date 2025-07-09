@@ -42,7 +42,7 @@ fields:
 ```php
 # site/templates/article.php
 
-<?php if ($link = $page->author()->toBlocks()?->first()->toResolvedLink()): ?>
+<?php if ($link = $page->author()->toBlocks()->first()?->toResolvedLink()): ?>
   <p>Author: <?= $link ?></p>
 <?php endif ?>
 ```
