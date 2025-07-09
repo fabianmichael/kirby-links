@@ -42,24 +42,14 @@ App::plugin('fabianmichael/links', [
 			return Link::resolve($this);
 		},
 	],
-	'blocksMethods' => [
-		'hasValidLinks' => function (): bool
-		{
-			/** @var Blocks $this */
-			foreach ($this as $block) {
-				if (Link::resolve($block) !== null) {
-					return true;
-				}
-			}
-
-			return false;
-		},
-	],
 	'fieldMethods' => [
-		'toResolvedLink' => function (): ?Link {
-			/** @var Field $this */
-			return Link::resolve($this);
+		'toResolvedLink' => function (Field $field): ?Link {
+			return Link::resolve($field);
 		},
+		'toResolvedLinks' => function(Field $field): Blocks {
+			return $field->toBlocks()
+				->filter(fn(Block $block) => !is_null($block->toResolvedLink()));
+		}
 	],
 	'fileMethods' => [
 		'toResolvedLink' => function (): ?Link {
