@@ -2,4 +2,4 @@ type: blocks
 label: links.multiple.label
 empty: links.empty
 fieldsets:
-  - link
+  link: blocks/link
