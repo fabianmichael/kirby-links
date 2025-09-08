@@ -191,12 +191,16 @@ class Link extends Obj implements Stringable
 	 * Generates a fallback text for given URL.
 	 */
 	protected static function fallbackText(string $href): string {
-		if (parse_url($href, PHP_URL_SCHEME) === 'mailto') {
-			// Url::short() does not support `mailto:` links
+		$scheme = parse_url($href, PHP_URL_SCHEME);
+
+		if (in_array($scheme, ['mailto', 'tel'])) {
+			// Url::short() does not support `mailto:` or `tel:` links
 			return parse_url($href, PHP_URL_PATH);
+		} else if (in_array($scheme, ['http', 'https', 'ftp'])) {
+			return Url::short($href);
 		}
 
-		return Url::short($href);
+		return $href;
 	}
 
 	/**
