@@ -31,36 +31,36 @@ App::plugin('fabianmichael/links', [
 	],
 
 	'assetMethods' => [
-		'toResolvedLink' => function (): ?Link {
+		'toResolvedLink' => function (array $overrides = []): ?Link {
 			/** @var Asset $this */
-			return Link::resolve($this);
+			return Link::resolve($this, $overrides);
 		},
 	],
 	'blockMethods' => [
-		'toResolvedLink' => function (): ?Link {
+		'toResolvedLink' => function (array $overrides = []): ?Link {
 			/** @var Block $this */
-			return Link::resolve($this);
+			return Link::resolve($this, $overrides);
 		},
 	],
 	'fieldMethods' => [
-		'toResolvedLink' => function (Field $field): ?Link {
-			return Link::resolve($field);
+		'toResolvedLink' => function (Field $field, array $overrides = []): ?Link {
+			return Link::resolve($field, $overrides);
 		},
-		'toResolvedLinks' => function(Field $field): Blocks {
+		'toResolvedLinks' => function(Field $field, array $overrides = []): Blocks {
 			return $field->toBlocks()
-				->filter(fn(Block $block) => !is_null($block->toResolvedLink()));
+				->filter(fn(Block $block) => !is_null($block->toResolvedLink($overrides)));
 		}
 	],
 	'fileMethods' => [
-		'toResolvedLink' => function (): ?Link {
+		'toResolvedLink' => function (array $overrides = []): ?Link {
 			/** @var File $this */
-			return Link::resolve($this);
+			return Link::resolve($this, $overrides);
 		},
 	],
 	'pageMethods' => [
-		'toResolvedLink' => function (): ?Link {
+		'toResolvedLink' => function (array $overrides = []): ?Link {
 			/** @var Page $this */
-			return Link::resolve($this);
+			return Link::resolve($this, $overrides);
 		},
 	],
 	'translations' => [
