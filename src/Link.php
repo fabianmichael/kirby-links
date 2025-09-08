@@ -117,12 +117,22 @@ class Link extends Obj implements Stringable
 			}
 		}
 
-		// compute rel attribute
+		// apply overrides
 		$result = array_merge($result, $options);
+
+		// return `null` if href is empty
+		if (empty($result['href'])) {
+			return null;
+		}
+
+		// compute rel attribute
 		$rel = static::relAttribute($result['href'], is_null($result['target']));
+		$text = !empty($options['text'])
+			? new Field(null, 'text', $options['text'])
+			: new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
 
 		return new static(array_merge($result, [
-			'text' => new Field(null, 'text', $result['text'] ?: static::fallbackText($result['href'])),
+			'text' => $text,
 			'rel' => $rel,
 			'external' => static::isExternal($result['href']),
 			'attr' => attributes([
