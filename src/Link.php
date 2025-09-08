@@ -24,7 +24,7 @@ class Link extends Obj implements Stringable
 	 */
 	public static function resolve(
 		Page|File|Asset|Block|StructureObject|Content|string|null $link,
-		array $options = []
+		array $overrides = []
 	): ?Obj {
 
 		if ($link === null) {
@@ -118,7 +118,7 @@ class Link extends Obj implements Stringable
 		}
 
 		// apply overrides
-		$result = array_merge($result, $options);
+		$result = array_merge($result, $overrides);
 
 		// return `null` if href is empty
 		if (empty($result['href'])) {
@@ -127,8 +127,8 @@ class Link extends Obj implements Stringable
 
 		// compute rel attribute
 		$rel = static::relAttribute($result['href'], is_null($result['target']));
-		$text = !empty($options['text'])
-			? new Field(null, 'text', $options['text'])
+		$text = !empty($overrides['text'])
+			? new Field(null, 'text', $overrides['text'])
 			: new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
 
 		return new static(array_merge($result, [
