@@ -23,9 +23,14 @@ class Link extends Obj implements Stringable
 	 * class if that was successful.
 	 */
 	public static function resolve(
-		Page|File|Asset|Block|StructureObject|Content|string|null $link,
+		Link|Page|File|Asset|Block|StructureObject|Content|string|null $link,
 		array $overrides = []
 	): ?Obj {
+
+		if ($link instanceof static) {
+			// don’t do anything if we already have a resolved link
+			return $link;
+		}
 
 		if ($link === null) {
 			// accepting `null` as input makes the function easier to use
