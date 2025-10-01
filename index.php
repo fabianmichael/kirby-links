@@ -44,7 +44,7 @@ App::plugin('fabianmichael/links', [
 	],
 	'fieldMethods' => [
 		'toResolvedLink' => function (Field $field, array $overrides = []): ?Link {
-			return Link::resolve($field, $overrides);
+			return $field->toResolvedLinks($overrides)->first();
 		},
 		'toResolvedLinks' => function(Field $field, array $overrides = []): Blocks {
 			return $field->toBlocks()
