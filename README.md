@@ -65,16 +65,13 @@ fields:
 ```php
 # site/templates/article.php
 
-<?php $links = $page->authors()->toBlocks() ?>
-<?php if ($links->hasValidLinks()): ?>
-  <ul>
-    <?php foreach ($links as $link): ?>
-      <?php if ($link = $link->toResolvedLink()): ?>
-        <li><?= $link ?></li>
-      <?php endif ?>
-    <?php endforeach ?>
-  </ul>
-<?php endif ?>
+<ul>
+  <?php foreach ($page->further_reading()->toBlocks() as $link): ?>
+    <?php if ($link = $link->toResolvedLink()): ?>
+      <li><?= $link ?></li>
+    <?php endif ?>
+  <?php endforeach ?>
+</ul>
 ```
 
 
