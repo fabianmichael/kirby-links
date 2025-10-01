@@ -44,6 +44,7 @@ class Link extends Obj implements Stringable
 			'external' => false,
 			'target' => null,
 			'download' => false,
+			'ariaLabel' => null,
 		];
 
 		if (is_string($link)) {
@@ -84,6 +85,7 @@ class Link extends Obj implements Stringable
 			// Link field group from various sources
 
 			$result['target'] = r($link->new_tab()->toBool(), '_blank');
+			$result['ariaLabel'] = $link->aria_label()->value();
 			$value = $link->link()->value();
 			$href = $link->link()->toUrl();
 
@@ -145,6 +147,7 @@ class Link extends Obj implements Stringable
 				'rel' => $rel,
 				'target' => $result['target'],
 				'aria-current' => $result['current'],
+				'aria-label' => $result['ariaLabel'],
 				'download' => $result['download'] ? true : null,
 			]),
 		]));

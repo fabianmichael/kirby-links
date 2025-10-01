@@ -28,3 +28,7 @@ fields:
     icon: download
     help: links.download.help
     width: 1/2
+  aria_label:
+    type: text
+    label: links.ariaLabel.label
+    help: links.ariaLabel.help

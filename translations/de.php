@@ -19,4 +19,6 @@ return [
 	'links.blocks.menuLink.name' => 'Link',
 	'links.blocks.menuSubmenu.name' => 'Untermenü',
 	'links.blocks.menuSubmenu.title.label' => 'Untermenü-Titel',
+	'links.ariaLabel.label' => 'Beschriftung für Hilfstechnologien',
+	'links.ariaLabel.help' => 'Setzt das `aria-label`-Attribut für den Link. Verwende dies, um den Link für Screen Reader zugänglicher zu machen, wenn der Linktext nicht genügend Kontext bietet.',
 ];

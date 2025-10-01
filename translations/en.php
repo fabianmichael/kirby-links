@@ -19,4 +19,6 @@ return [
 	'links.blocks.menuLink.name' => 'Link',
 	'links.blocks.menuSubmenu.name' => 'Submenu',
 	'links.blocks.menuSubmenu.title.label' => 'Submenu title',
+	'links.ariaLabel.label' => 'Label for assistive technologies',
+	'links.ariaLabel.help' => 'Sets the `aria-label` attribute for the link. Use this to make the link more accessible for assistive technologies when the link text does not provide enough context.',
 ];
