@@ -18,6 +18,8 @@ use Stringable;
 
 class Link extends Obj implements Stringable
 {
+	private Content $contentData;
+
 	/**
 	 * Tries to resolve the link and returns an instance of this
 	 * class if that was successful.
@@ -45,6 +47,7 @@ class Link extends Obj implements Stringable
 			'target' => null,
 			'download' => false,
 			'ariaLabel' => null,
+			'content' => [],
 		];
 
 		if (is_string($link)) {
@@ -92,6 +95,8 @@ class Link extends Obj implements Stringable
 			if (empty($href)) {
 				return null;
 			}
+
+			$result['content'] = $link->content()->toArray();
 
 			if (Uuid::is($value, 'page')) {
 				if (!$model = Uuid::for($value)->model()) {
@@ -151,6 +156,15 @@ class Link extends Obj implements Stringable
 				'download' => $result['download'] ? true : null,
 			]),
 		]));
+	}
+
+	public function fields(): Content
+	{
+		if (!isset($this->contentData)) {
+			$this->contentData = new Content($this->content());
+		}
+
+		return $this->contentData;
 	}
 
 	public static function relAttribute(string $href, bool $newTab = false): ?string
