@@ -3,6 +3,7 @@
 namespace FabianMichael\Links;
 
 use Kirby\Cms\Block;
+use Kirby\Cms\Blocks;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
@@ -25,7 +26,7 @@ class Link extends Obj implements Stringable
 	 * class if that was successful.
 	 */
 	public static function resolve(
-		Link|Page|File|Asset|Block|StructureObject|Content|string|null $link,
+		Link|Page|File|Asset|Block|Blocks|StructureObject|Content|string|null $link,
 		array $overrides = []
 	): ?Obj {
 
@@ -55,6 +56,8 @@ class Link extends Obj implements Stringable
 			$result = array_merge($result, [
 				'href' => $link,
 			]);
+		} elseif ($link instanceof Blocks) {
+			return static::resolve($link->first(), $overrides);
 		} elseif ($link instanceof Page) {
 			// plain page object
 			$result = array_merge($result, [
