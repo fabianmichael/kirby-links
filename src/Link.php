@@ -47,6 +47,7 @@ class Link extends Obj implements Stringable
 			'external' => false,
 			'target' => null,
 			'download' => false,
+			'text' => null,
 			'ariaLabel' => null,
 			'content' => [],
 		];
