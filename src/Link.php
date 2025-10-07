@@ -26,7 +26,7 @@ class Link extends Obj implements Stringable
 	 * class if that was successful.
 	 */
 	public static function resolve(
-		Link|Page|File|Asset|Block|Blocks|StructureObject|Content|string|null $link,
+		Link|Page|File|Asset|Block|Blocks|Field|StructureObject|Content|string|null $link,
 		array $overrides = []
 	): ?Obj {
 
