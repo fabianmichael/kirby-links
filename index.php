@@ -3,7 +3,7 @@
 use FabianMichael\Links\Link;
 use Kirby\Cms\App;
 use Kirby\Cms\Block;
-use Kirby\Cms\Blocks;
+use Kirby\Cms\Collection;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Content\Field;
@@ -46,9 +46,19 @@ App::plugin('fabianmichael/links', [
 		'toResolvedLink' => function (Field $field, array $overrides = []): ?Link {
 			return $field->toResolvedLinks($overrides)->first();
 		},
-		'toResolvedLinks' => function(Field $field, array $overrides = []): Blocks {
-			return $field->toBlocks()
-				->filter(fn(Block $block) => !is_null($block->toResolvedLink($overrides)));
+		'toResolvedLinks' => function(Field $field, array $overrides = []): Collection {
+			$blocks = $field->toBlocks();
+			$links = new Collection();
+
+			foreach ($blocks as $key => $block) {
+				$link = $block->toResolvedLink($overrides);
+
+				if ($link) {
+					$links->append($key, $link);
+				}
+			}
+
+			return $links;
 		}
 	],
 	'fileMethods' => [

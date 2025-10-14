@@ -2,14 +2,12 @@
 
 return [
 	'links.link.label' => 'Linkziel',
-	'links.text.label' => 'Link-Text',
+	'links.text.label' => 'Linktext',
 	'links.text.help' => 'Optional, wird automatisch aus dem Linkziel generiert, wenn nicht angegeben.',
 	'links.anchor.label' => 'Anker',
-	'links.anchor.help' => 'Dieses Feld hat nur Auswirkungen beim Verlinken zu einer Seite.',
+	'links.anchor.help' => 'Nur für Verlinkungen zu anderen Seiten.',
 	'links.newTab.label' => 'In neuem Tab öffnen?',
-	'links.newTab.help' => 'Diese Option hat nur Auswirkungen auf Links zu Seiten, URLs und Dateien.',
 	'links.download.label' => 'Download erzwingen',
-	'links.download.help' => 'Weist den Browser an, das Link-Ziel herunterzuladen. Dies hat nur Auswirkungen beim Verlinken zu einer Datei oder einer URL.',
 	'links.empty' => 'Keine Links',
 	'links.single.label' => 'Link',
 	'links.multiple.label' => 'Links',
@@ -20,5 +18,5 @@ return [
 	'links.blocks.menuSubmenu.name' => 'Untermenü',
 	'links.blocks.menuSubmenu.title.label' => 'Untermenü-Titel',
 	'links.ariaLabel.label' => 'Beschriftung für Hilfstechnologien',
-	'links.ariaLabel.help' => 'Setzt das `aria-label`-Attribut für den Link. Verwende dies, um den Link für Screen Reader zugänglicher zu machen, wenn der Linktext nicht genügend Kontext bietet.',
+	'links.ariaLabel.help' => 'Überschreibt den Linktext für Screen-Reader.',
 ];

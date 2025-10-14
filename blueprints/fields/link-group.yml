@@ -8,6 +8,11 @@ fields:
     type: text
     label: links.text.label
     help: links.text.help
+  aria_label:
+    type: text
+    label: links.ariaLabel.label
+    help: links.ariaLabel.help
+    width: 1/2
   anchor:
     type: text
     before: "#"
@@ -20,15 +25,9 @@ fields:
     type: toggle
     label: links.newTab.label
     icon: external
-    help: links.newTab.help
     width: 1/2
   download:
     type: toggle
     label: links.download.label
     icon: download
-    help: links.download.help
     width: 1/2
-  aria_label:
-    type: text
-    label: links.ariaLabel.label
-    help: links.ariaLabel.help

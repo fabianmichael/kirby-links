@@ -3,6 +3,7 @@
 namespace FabianMichael\Links;
 
 use Kirby\Cms\Block;
+use Kirby\Cms\Blocks;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
@@ -18,12 +19,14 @@ use Stringable;
 
 class Link extends Obj implements Stringable
 {
+	private Content $contentData;
+
 	/**
 	 * Tries to resolve the link and returns an instance of this
 	 * class if that was successful.
 	 */
 	public static function resolve(
-		Link|Page|File|Asset|Block|StructureObject|Content|string|null $link,
+		Link|Page|File|Asset|Block|Blocks|Field|StructureObject|Content|string|null $link,
 		array $overrides = []
 	): ?Obj {
 
@@ -44,7 +47,9 @@ class Link extends Obj implements Stringable
 			'external' => false,
 			'target' => null,
 			'download' => false,
+			'text' => null,
 			'ariaLabel' => null,
+			'content' => [],
 		];
 
 		if (is_string($link)) {
@@ -52,6 +57,8 @@ class Link extends Obj implements Stringable
 			$result = array_merge($result, [
 				'href' => $link,
 			]);
+		} elseif ($link instanceof Blocks) {
+			return static::resolve($link->first(), $overrides);
 		} elseif ($link instanceof Page) {
 			// plain page object
 			$result = array_merge($result, [
@@ -92,6 +99,8 @@ class Link extends Obj implements Stringable
 			if (empty($href)) {
 				return null;
 			}
+
+			$result['content'] = $link->content()->toArray();
 
 			if (Uuid::is($value, 'page')) {
 				if (!$model = Uuid::for($value)->model()) {
@@ -151,6 +160,15 @@ class Link extends Obj implements Stringable
 				'download' => $result['download'] ? true : null,
 			]),
 		]));
+	}
+
+	public function fields(): Content
+	{
+		if (!isset($this->contentData)) {
+			$this->contentData = new Content($this->content());
+		}
+
+		return $this->contentData;
 	}
 
 	public static function relAttribute(string $href, bool $newTab = false): ?string
