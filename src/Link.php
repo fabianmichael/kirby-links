@@ -50,6 +50,7 @@ class Link extends Obj implements Stringable
 			'text' => null,
 			'ariaLabel' => null,
 			'content' => [],
+			'attr' => [],
 		];
 
 		if (is_string($link)) {
@@ -158,7 +159,7 @@ class Link extends Obj implements Stringable
 				'aria-current' => $result['current'],
 				'aria-label' => $result['ariaLabel'],
 				'download' => $result['download'] ? true : null,
-			]),
+			])->merge($result['attr']),
 		]));
 	}
 
