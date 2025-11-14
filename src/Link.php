@@ -2,6 +2,7 @@
 
 namespace FabianMichael\Links;
 
+use FabianMichael\TemplateAttributes\Attributes;
 use Kirby\Cms\Block;
 use Kirby\Cms\Blocks;
 use Kirby\Cms\File;
