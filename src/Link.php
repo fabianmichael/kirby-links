@@ -17,6 +17,17 @@ use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use Stringable;
 
+/**
+ * @method Field text()
+ * @method string href()
+ * @method bool|string current()
+ * @method bool external()
+ * @method string|null target()
+ * @method bool download()
+ * @method string|null ariaLabel()
+ * @method Content fields()
+ * @method Attributes attr()
+ */
 class Link extends Obj implements Stringable
 {
 	private Content $contentData;
