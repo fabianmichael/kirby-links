@@ -115,7 +115,17 @@ class Link extends Obj implements Stringable
 
 			$result['content'] = $link->content()->toArray();
 
-			if (Uuid::is($value, 'page')) {
+			if (str_starts_with($value, '#')) {
+				// handle anchor links separately, since Kirby’s
+				// url component sometimes converts these to absolute
+				// URLs to a differnt page (tested with Kirby 5.1.4)
+				$href = $value;
+
+				$result = array_merge($result, [
+					'href' => $href,
+					'text' => $link->text()->or($value)->toString(),
+				]);
+			} else if (Uuid::is($value, 'page')) {
 				if (!$model = Uuid::for($value)->model()) {
 					return null;
 				}
@@ -127,7 +137,7 @@ class Link extends Obj implements Stringable
 					'current' => static::ariaCurrentValue($model),
 					'text' => $link->text()->or($model->title())->toString(),
 				]);
-			} elseif (Uuid::is($value, 'file')) {
+			} else if (Uuid::is($value, 'file')) {
 				if (!$model = Uuid::for($value)->model()) {
 					return null;
 				}
