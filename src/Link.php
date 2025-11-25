@@ -132,7 +132,9 @@ class Link extends Obj implements Stringable
 
 				/** @var Page $model */
 				$result = array_merge($result, [
-					'href' => $model->url(),
+					'href' => $model->url([
+						'fragment' => $link->anchor()->value(),
+					]),
 					'page' => $model,
 					'current' => static::ariaCurrentValue($model),
 					'text' => $link->text()->or($model->title())->toString(),
