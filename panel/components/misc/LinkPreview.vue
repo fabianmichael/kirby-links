@@ -1,7 +1,7 @@
 <template>
   <div class="fm-link-preview">
     <k-icon :type="icon" class="fm-link-preview__icon" />
-    <div class="fm-link-preview__text">{{ text }}</div>
+    <div class="fm-link-preview__text">{{ text }} <span v-if="anchor" class="fm-link-preview__anchor">{{ anchor }}</span></div>
     <k-icon
       type="download"
       v-if="download"
@@ -53,6 +53,9 @@ export default {
       }
 
       return this.types[this.currentType]?.icon || "question"
+    },
+    anchor() {
+      return this.currentType ? `#${this.content.anchor}` : null;
     },
     detected() {
 			return this.$helper.link.detect(this.content.link);
@@ -111,6 +114,12 @@ export default {
   text-overflow: ellipsis;
   min-width: 0;
   /* flex: 2 1 auto; */
+}
+
+.fm-link-preview__anchor {
+  font-size: .875em;
+  color: var(--color-text-dimmed);
+  font-family: var(--font-mono);
 }
 
 .fm-link-preview__preview {
