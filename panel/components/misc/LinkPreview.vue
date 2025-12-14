@@ -55,7 +55,7 @@ export default {
       return this.types[this.currentType]?.icon || "question"
     },
     anchor() {
-      return this.currentType ? `#${this.content.anchor}` : null;
+      return (this.currentType === 'page' && this.content.anchor) ? `#${this.content.anchor}` : null
     },
     detected() {
 			return this.$helper.link.detect(this.content.link);
