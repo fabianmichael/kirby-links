@@ -105,7 +105,7 @@ class Link extends Obj implements Stringable
 			// Link field group from various sources
 
 			$result['target'] = r($link->new_tab()->toBool(), '_blank');
-			$result['ariaLabel'] = $link->aria_label()->value();
+			$result['ariaLabel'] = $link->aria_label()->value() ?: null;
 			$value = $link->link()->value();
 			$href = $link->link()->toUrl();
 
