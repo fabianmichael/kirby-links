@@ -57,6 +57,7 @@ class Link extends Obj implements Stringable
 			'href' => null,
 			'current' => false,
 			'external' => false,
+			'rel' => null,
 			'target' => null,
 			'download' => false,
 			'text' => null,
@@ -106,6 +107,7 @@ class Link extends Obj implements Stringable
 
 			$result['target'] = r($link->new_tab()->toBool(), '_blank');
 			$result['ariaLabel'] = $link->aria_label()->value() ?: null;
+			$result['rel'] = $link->rel()->split();
 			$value = $link->link()->value();
 			$href = $link->link()->toUrl();
 
@@ -167,7 +169,7 @@ class Link extends Obj implements Stringable
 		}
 
 		// compute rel attribute
-		$rel = static::relAttribute($result['href'], is_null($result['target']));
+		$rel = static::relAttribute($result['href'], is_null($result['target']), $result['rel']);
 		$text = !empty($overrides['text'])
 			? new Field(null, 'text', $overrides['text'])
 			: new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
@@ -196,8 +198,11 @@ class Link extends Obj implements Stringable
 		return $this->contentData;
 	}
 
-	public static function relAttribute(string $href, bool $newTab = false): ?string
-	{
+	public static function relAttribute(
+		string $href,
+		bool $newTab = false,
+		array $additional = []
+	): ?string {
 		$isExternal = parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 		$rel = [];
 
@@ -208,6 +213,9 @@ class Link extends Obj implements Stringable
 				$rel = [...$rel, 'noopener', 'noreferrer'];
 			}
 		}
+
+		$rel = array_merge($rel, $additional);
+		$rel = array_unique($rel);
 
 		return count($rel) > 0 ? implode(' ', $rel) : null;
 	}

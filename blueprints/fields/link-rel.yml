@@ -1,0 +1,11 @@
+type: multiselect
+label: links.rel.label
+help: links.rel.help
+options:
+  - author
+  - help
+  - license
+  - me
+  - privacy-policy
+  - terms-of-service
+sort: true

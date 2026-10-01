@@ -19,4 +19,6 @@ return [
 	'links.blocks.menuSubmenu.title.label' => 'Untermenü-Titel',
 	'links.ariaLabel.label' => 'Beschriftung für Hilfstechnologien',
 	'links.ariaLabel.help' => 'Überschreibt den Linktext für Screen-Reader.',
+	'links.rel.label' => 'Beziehung',
+	'links.rel.help' => 'Erlaubt es Suchmaschinen und anderen Diensten, die Beziehung zum Linkziel zu verstehen. Setzt das `rel`-Attribut für den Link.',
 ];

@@ -20,4 +20,6 @@ return [
 	'links.blocks.menuSubmenu.title.label' => 'Submenu title',
 	'links.ariaLabel.label' => 'Label for assistive technologies',
 	'links.ariaLabel.help' => 'Overwrites the link text for assistive technologies.',
+	'links.rel.label' => 'Relation',
+	'links.rel.help' => 'Allows search engines and other services to understand the relationship to the link target. Sets the `rel` attribute for the link.',
 ];

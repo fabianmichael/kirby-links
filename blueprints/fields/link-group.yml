@@ -32,3 +32,4 @@ fields:
     label: links.download.label
     icon: download
     width: 1/2
+  rel: fields/link-rel
