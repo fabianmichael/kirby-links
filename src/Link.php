@@ -201,7 +201,7 @@ class Link extends Obj implements Stringable
 	public static function relAttribute(
 		string $href,
 		bool $newTab = false,
-		array $additional = []
+		array|null $additional = null
 	): ?string {
 		$isExternal = parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 		$rel = [];
@@ -214,8 +214,10 @@ class Link extends Obj implements Stringable
 			}
 		}
 
-		$rel = array_merge($rel, $additional);
-		$rel = array_unique($rel);
+		if (is_array($additional)) {
+			$rel = array_merge($rel, $additional);
+			$rel = array_unique($rel);
+		}
 
 		return count($rel) > 0 ? implode(' ', $rel) : null;
 	}
