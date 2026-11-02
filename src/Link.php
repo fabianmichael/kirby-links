@@ -269,7 +269,7 @@ class Link extends Obj implements Stringable
 	 */
 	public function __toString() : string {
 		return Str::template('<a {attr}>{text}</a>', [
-			'attr' => $this->attr()->toString(),
+			'attr' => (string)$this->attr(),
 			'text' => html($this->text()),
 		]);
 	}
