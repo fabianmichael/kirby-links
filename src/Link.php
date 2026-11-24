@@ -34,6 +34,12 @@ class Link extends Obj implements Stringable
 	private Content $contentData;
 
 	/**
+	 * Raw link data before computing derived values,
+	 * used for re-applying overrides to a resolved link.
+	 */
+	private array $raw = [];
+
+	/**
 	 * Tries to resolve the link and returns an instance of this
 	 * class if that was successful.
 	 */
@@ -43,8 +49,11 @@ class Link extends Obj implements Stringable
 	): ?Obj {
 
 		if ($link instanceof static) {
-			// don’t do anything if we already have a resolved link
-			return $link;
+			// don’t do anything if we already have a resolved link,
+			// otherwise rebuild it without modifying the original
+			return $overrides === []
+				? $link
+				: static::build(array_merge($link->raw, $overrides));
 		}
 
 		if ($link === null) {
@@ -195,7 +204,7 @@ class Link extends Obj implements Stringable
 		$rel = static::relAttribute($result['href'], is_null($result['target']), $result['rel']);
 		$text = new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
 
-		return new static(array_merge($result, [
+		$link = new static(array_merge($result, [
 			'text' => $text,
 			'rel' => $rel,
 			'external' => static::isExternal($result['href']),
@@ -208,6 +217,10 @@ class Link extends Obj implements Stringable
 				'download' => $result['download'] ? true : null,
 			])->merge($result['attr']),
 		]));
+
+		$link->raw = $result;
+
+		return $link;
 	}
 
 	public function fields(): Content
