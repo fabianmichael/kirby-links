@@ -237,10 +237,9 @@ class Link extends Obj implements Stringable
 		bool $newTab = false,
 		array|null $additional = null
 	): ?string {
-		$isExternal = parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 		$rel = [];
 
-		if ($isExternal) {
+		if (static::isExternal($href)) {
 			$rel[] = 'external';
 
 			if ($newTab) {
@@ -259,7 +258,14 @@ class Link extends Obj implements Stringable
 
 	public static function isExternal(string $href): bool
 	{
-		return parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
+		$host = parse_url($href, PHP_URL_HOST);
+
+		if ($host === null && parse_url($href, PHP_URL_SCHEME) === null) {
+			// relative URLs (e.g. `/foo`, `#anchor`) always point to this site
+			return false;
+		}
+
+		return $host !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 	}
 
 	/**
