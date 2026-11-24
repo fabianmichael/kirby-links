@@ -201,7 +201,7 @@ class Link extends Obj implements Stringable
 		}
 
 		// compute rel attribute
-		$rel = static::relAttribute($result['href'], is_null($result['target']), $result['rel']);
+		$rel = static::relAttribute($result['href'], $result['target'] === '_blank', $result['rel']);
 		$text = new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
 
 		$link = new static(array_merge($result, [
