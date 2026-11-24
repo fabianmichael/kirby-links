@@ -52,6 +52,25 @@ class Link extends Obj implements Stringable
 			return null;
 		}
 
+		if ($link instanceof Blocks) {
+			return static::resolve($link->first(), $overrides);
+		}
+
+		if (!$result = static::extract($link)) {
+			return null;
+		}
+
+		// apply overrides
+		return static::build(array_merge($result, $overrides));
+	}
+
+	/**
+	 * Collects the raw link data from given source or returns
+	 * `null` if the source does not contain a valid link.
+	 */
+	protected static function extract(
+		Page|File|Asset|Block|Field|StructureObject|Content|string $link
+	): ?array {
 		// start with an empty link
 		$result = [
 			'href' => null,
@@ -71,8 +90,6 @@ class Link extends Obj implements Stringable
 			$result = array_merge($result, [
 				'href' => $link,
 			]);
-		} elseif ($link instanceof Blocks) {
-			return static::resolve($link->first(), $overrides);
 		} elseif ($link instanceof Page) {
 			// plain page object
 			$result = array_merge($result, [
@@ -160,9 +177,15 @@ class Link extends Obj implements Stringable
 			}
 		}
 
-		// apply overrides
-		$result = array_merge($result, $overrides);
+		return $result;
+	}
 
+	/**
+	 * Creates a link object from raw link data and computes
+	 * all derived values.
+	 */
+	protected static function build(array $result): ?static
+	{
 		// return `null` if href is empty
 		if (empty($result['href'])) {
 			return null;
@@ -170,9 +193,7 @@ class Link extends Obj implements Stringable
 
 		// compute rel attribute
 		$rel = static::relAttribute($result['href'], is_null($result['target']), $result['rel']);
-		$text = !empty($overrides['text'])
-			? new Field(null, 'text', $overrides['text'])
-			: new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
+		$text = new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
 
 		return new static(array_merge($result, [
 			'text' => $text,
