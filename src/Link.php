@@ -34,6 +34,12 @@ class Link extends Obj implements Stringable
 	private Content $contentData;
 
 	/**
+	 * Raw link data before computing derived values,
+	 * used for re-applying overrides to a resolved link.
+	 */
+	private array $raw = [];
+
+	/**
 	 * Tries to resolve the link and returns an instance of this
 	 * class if that was successful.
 	 */
@@ -43,8 +49,11 @@ class Link extends Obj implements Stringable
 	): ?Obj {
 
 		if ($link instanceof static) {
-			// don’t do anything if we already have a resolved link
-			return $link;
+			// don’t do anything if we already have a resolved link,
+			// otherwise rebuild it without modifying the original
+			return $overrides === []
+				? $link
+				: static::build(array_merge($link->raw, $overrides));
 		}
 
 		if ($link === null) {
@@ -52,6 +61,25 @@ class Link extends Obj implements Stringable
 			return null;
 		}
 
+		if ($link instanceof Blocks) {
+			return static::resolve($link->first(), $overrides);
+		}
+
+		if (!$result = static::extract($link)) {
+			return null;
+		}
+
+		// apply overrides
+		return static::build(array_merge($result, $overrides));
+	}
+
+	/**
+	 * Collects the raw link data from given source or returns
+	 * `null` if the source does not contain a valid link.
+	 */
+	protected static function extract(
+		Page|File|Asset|Block|Field|StructureObject|Content|string $link
+	): ?array {
 		// start with an empty link
 		$result = [
 			'href' => null,
@@ -71,8 +99,6 @@ class Link extends Obj implements Stringable
 			$result = array_merge($result, [
 				'href' => $link,
 			]);
-		} elseif ($link instanceof Blocks) {
-			return static::resolve($link->first(), $overrides);
 		} elseif ($link instanceof Page) {
 			// plain page object
 			$result = array_merge($result, [
@@ -160,21 +186,25 @@ class Link extends Obj implements Stringable
 			}
 		}
 
-		// apply overrides
-		$result = array_merge($result, $overrides);
+		return $result;
+	}
 
+	/**
+	 * Creates a link object from raw link data and computes
+	 * all derived values.
+	 */
+	protected static function build(array $result): ?static
+	{
 		// return `null` if href is empty
 		if (empty($result['href'])) {
 			return null;
 		}
 
 		// compute rel attribute
-		$rel = static::relAttribute($result['href'], is_null($result['target']), $result['rel']);
-		$text = !empty($overrides['text'])
-			? new Field(null, 'text', $overrides['text'])
-			: new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
+		$rel = static::relAttribute($result['href'], $result['target'] === '_blank', $result['rel']);
+		$text = new Field(null, 'text', !empty($result['text']) ? $result['text'] : static::fallbackText($result['href']));
 
-		return new static(array_merge($result, [
+		$link = new static(array_merge($result, [
 			'text' => $text,
 			'rel' => $rel,
 			'external' => static::isExternal($result['href']),
@@ -187,6 +217,10 @@ class Link extends Obj implements Stringable
 				'download' => $result['download'] ? true : null,
 			])->merge($result['attr']),
 		]));
+
+		$link->raw = $result;
+
+		return $link;
 	}
 
 	public function fields(): Content
@@ -203,10 +237,9 @@ class Link extends Obj implements Stringable
 		bool $newTab = false,
 		array|null $additional = null
 	): ?string {
-		$isExternal = parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 		$rel = [];
 
-		if ($isExternal) {
+		if (static::isExternal($href)) {
 			$rel[] = 'external';
 
 			if ($newTab) {
@@ -225,7 +258,14 @@ class Link extends Obj implements Stringable
 
 	public static function isExternal(string $href): bool
 	{
-		return parse_url($href, PHP_URL_HOST) !== parse_url(kirby()->url('index'), PHP_URL_HOST);
+		$host = parse_url($href, PHP_URL_HOST);
+
+		if ($host === null && parse_url($href, PHP_URL_SCHEME) === null) {
+			// relative URLs (e.g. `/foo`, `#anchor`) always point to this site
+			return false;
+		}
+
+		return $host !== parse_url(kirby()->url('index'), PHP_URL_HOST);
 	}
 
 	/**

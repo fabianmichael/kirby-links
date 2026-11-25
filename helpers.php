@@ -8,7 +8,7 @@ use Kirby\Cms\Page;
 use Kirby\Cms\StructureObject;
 use Kirby\Content\Content;
 use Kirby\Filesystem\Asset;
-use Kirby\Panel\Field;
+use Kirby\Content\Field;
 use Kirby\Toolkit\Obj;
 
 function resolve_link(
